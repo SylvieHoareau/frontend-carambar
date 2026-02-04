@@ -6,6 +6,9 @@ export default function Home() {
 
   const [jokes, setJokes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  
 
   useEffect(() => {
     // Chargement des blagues au montage du composant
@@ -20,28 +23,97 @@ export default function Home() {
       });
   }, []);
 
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % jokes.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + jokes.length) % jokes.length);
+  };
+
   if (loading) {
-    return <div>Chargement des blagues...</div>;
+    return (
+      <div role="status" className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+        <span className="text-xl font-bold text-red-600 animate-pulse">Chargement des blagues...</span>
+      </div>
+    );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    // Palette Carambar : #E30613 (rouge), #FFFF00 (jaune)
+    <div className="flex min-h-screen flex-col items-center justify-between bg-zinc-50 font-sans dark:bg-black">
+      <header className="w-full bg-red-600 py-6 ">
+        <h1 className="text-center text-3xl font-black uppercase tracking-widest text-white sm:text-4xl">
+          Carambar & Co
+        </h1>
+      </header>
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-       
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            Les blagues de Carambar
-          </h1>
-          <div className="flex flex-col gap-4">
+          <h2 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+            Les blagues cultes
+          </h2>
+
+          {/* Conteneur des slides */}
+          <div 
+            className="flex transition-transform duration-500 ease-in-out" 
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
             {jokes.map((joke) => (
-              <div key={joke.id} className="rounded-lg border border-zinc-200 bg-zinc-100 p-4 dark:border-zinc-700 dark:bg-zinc-800">
-                <p className="text-zinc-900 dark:text-blue-100">{joke.question}</p>
-                <p className="mt-2 font-medium text-zinc-700 dark:text-blue-300">{joke.response}</p>
+              <div key={joke.id} className="w-full flex-shrink-0 px-4">
+                <article 
+                  className="group flex flex-col rounded-2xl border-4 border-red-600 bg-white p-6 shadow-[8px_8px_0px_0px_rgba(227,6,19,1)] transition-transform hover:-translate-y-1 focus-within:ring-4 focus-within:ring-red-400 dark:border-zinc-700 dark:bg-zinc-800"
+                >
+                  <h3 className="mb-2 text-lg font-bold text-red-600 dark:text-red-400">
+                    <span className="sr-only">Question : </span>
+                    {joke.question}
+                  </h3>
+
+                  {/* Séparateur visuel style Carambar */}
+                  <div className="my-2 h-1 w-full bg-yellow-400 transition-all group-hover:w-full"></div>
+                  
+                  <p className="text-zinc-800 font-medium italic dark:text-zinc-200">
+                    <span className="sr-only">Réponse : </span>{joke.response}
+                  </p>
+                </article>
               </div>
             ))}
           </div>
+
+          {/* Bouttons de navigation (Accessibles) */}
+          <button
+            onClick={prevSlide}
+            aria-label="Blague précédente"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-red-600 p-3 text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-400"
+          >
+            &lt;
+          </button>
+          <button
+            onClick={nextSlide}
+            aria-label="Blague suivante"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-red-600 p-3 text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-400"
+          >
+            &gt;
+          </button>
         </div>
       </main>
+
+      {/* Indicateurs (Dots) */}
+      <div className="flex justify-center gap-2 pb-10">
+        {jokes.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            aria-label={`Aller à la blague ${index + 1}`}
+            className={`h-4 w-4 rounded-full border-2 border-red-600 transition-colors ${currentIndex === index ? 'bg-red-600' : 'bg-white'}`}
+          />
+      ))}
+      </div>
+
+      <footer className="w-full bg-red-600 py-4 text-center text-sm text-white">
+        <p className="text-white dark:text-zinc-200">
+          © {new Date().getFullYear()} Carambar & Co - Tous droits réservés - Humour pur sucre
+        </p>
+      </footer>
     </div>
   );
 }

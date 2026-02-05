@@ -33,7 +33,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div role="status" className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+      <div aria-live="polite" role="status" className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
         <span className="text-xl font-bold text-red-600 animate-pulse">Chargement des blagues...</span>
       </div>
     );
@@ -53,10 +53,14 @@ export default function Home() {
             Les blagues cultes
           </h2>
 
+        {/* Wrapper du slider avec TAILLE FIXE */}
+        <div className="relative w-full overflow-hidden min-h-[400px] flex items-center">
           {/* Conteneur des slides */}
           <div 
             className="flex transition-transform duration-500 ease-in-out" 
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            aria-live="polite"
+            aria-atomic="true"
           >
             {jokes.map((joke) => (
               <div key={joke.id} className="w-full flex-shrink-0 px-4">
@@ -71,13 +75,22 @@ export default function Home() {
                   {/* Séparateur visuel style Carambar */}
                   <div className="my-2 h-1 w-full bg-yellow-400 transition-all group-hover:w-full"></div>
                   
-                  <p className="text-zinc-800 font-medium italic dark:text-zinc-200">
-                    <span className="sr-only">Réponse : </span>{joke.response}
-                  </p>
+                  {/* Bouton pour révéler la réponse (Accessibilité) */}
+                  <details className="cursor-pointer group">
+                    <summary className="list-none bg-yellow-400 text-sm font-bold py-2 px-4 rounded-full inline-block hover:bg-yellow-300 dark:text-red-400">
+                      <span className="sr-only">Afficher la réponse</span>
+                      Afficher la réponse
+                    </summary>
+                    <p className="text-zinc-800 font-medium italic dark:text-zinc-200">
+                      <span className="sr-only">Réponse : </span>{joke.response}
+                    </p>
+                  </details>
+                 
                 </article>
               </div>
             ))}
           </div>
+        </div>
 
           {/* Bouttons de navigation (Accessibles) */}
           <button

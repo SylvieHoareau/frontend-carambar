@@ -31,16 +31,16 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div aria-live="polite" role="status" className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        <span className="text-xl font-bold text-red-600 animate-pulse">Chargement des blagues...</span>
+      <div aria-live="polite" role="status" className="flex min-h-screen items-center justify-center bg-[#FFFF00] font-sans dark:bg-black">
+        <span className="text-xl font-bold text-[#E10079] animate-pulse">Chargement des blagues...</span>
       </div>
     );
   }
 
   return (
-    // Palette Carambar : #E30613 (rouge), #FFFF00 (jaune)
+    // Palette Carambar : #E10079 (rouge), #FFFF00 (jaune)
     <div className="flex min-h-screen flex-col items-center justify-between bg-zinc-50 font-sans dark:bg-black">
-      <header className="w-full bg-red-600 py-6 ">
+      <header className="w-full bg-[#E10079] py-6 ">
         <h1 className="text-center text-3xl font-black uppercase tracking-widest text-white sm:text-4xl">
           Carambar & Co
         </h1>
@@ -52,7 +52,7 @@ export default function Home() {
           </h2>
 
         {/* Wrapper du slider avec TAILLE FIXE */}
-        <div className="relative w-full max-w-xl flex flex-col overflow-hidden rounded-3xl border-4 border-red-600 shadow-[8px_8px_0px_0px_rgba(227,6,19,1)]">
+        <div className="relative w-full max-w-xl flex flex-col overflow-hidden rounded-3xl border-4 border-[#E10079] shadow-[10px_10px_0px_0px_#E10079]">
           
           {/* Conteneur des slides */}
           <div 
@@ -65,7 +65,7 @@ export default function Home() {
                 <article 
                   className="flex min-h-[300px] flex-col rounded-2xl"
                 >
-                  <h3 className="text-xl font-bold text-red-600 dark:text-red-400">
+                  <h3 className="text-xl font-bold text-[#E10079] dark:text-red-400">
                     <span className="sr-only">Question : </span>
                     {joke.question}
                   </h3>
@@ -94,14 +94,14 @@ export default function Home() {
           <button
             onClick={prevSlide}
             aria-label="Blague précédente"
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-red-600 p-3 text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-400"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#E10079] p-3 text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-400"
           >
             &lt;
           </button>
           <button
             onClick={nextSlide}
             aria-label="Blague suivante"
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-red-600 p-3 text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-400"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#E10079] p-3 text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-400"
           >
             &gt;
           </button>
@@ -115,12 +115,12 @@ export default function Home() {
             key={index}
             onClick={() => setCurrentIndex(index)}
             aria-label={`Aller à la blague ${index + 1}`}
-            className={`h-4 w-4 rounded-full border-2 border-red-600 transition-colors ${currentIndex === index ? 'bg-red-600' : 'bg-white'}`}
+            className={`h-4 w-4 rounded-full border-2 border-[#E10079] transition-colors ${currentIndex === index ? 'bg-red-600' : 'bg-white'}`}
           />
       ))}
       </div>
 
-      <footer className="w-full bg-red-600 py-4 text-center text-sm text-white">
+      <footer className="w-full bg-[#E10079] py-4 text-center text-sm text-white">
         <p className="text-white dark:text-zinc-200">
           © {new Date().getFullYear()} Carambar & Co - Tous droits réservés - Humour pur sucre
         </p>

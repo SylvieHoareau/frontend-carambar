@@ -8,8 +8,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  
-
   useEffect(() => {
     // Chargement des blagues au montage du composant
     jokeService.getAllJokes()
@@ -47,27 +45,27 @@ export default function Home() {
           Carambar & Co
         </h1>
       </header>
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+      <main className="container mx-auto flex flex-col min-h-screen w-full max-w-3xl items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <h2 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
             Les blagues cultes
           </h2>
 
         {/* Wrapper du slider avec TAILLE FIXE */}
-        <div className="relative w-full overflow-hidden min-h-[400px] flex items-center">
+        <div className="relative w-full max-w-xl flex flex-col overflow-hidden rounded-3xl border-4 border-red-600 shadow-[8px_8px_0px_0px_rgba(227,6,19,1)]">
+          
           {/* Conteneur des slides */}
           <div 
             className="flex transition-transform duration-500 ease-in-out" 
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             aria-live="polite"
-            aria-atomic="true"
           >
             {jokes.map((joke) => (
-              <div key={joke.id} className="w-full flex-shrink-0 px-4">
+              <div key={joke.id} className="w-full flex-shrink-0 p-4">
                 <article 
-                  className="group flex flex-col rounded-2xl border-4 border-red-600 bg-white p-6 shadow-[8px_8px_0px_0px_rgba(227,6,19,1)] transition-transform hover:-translate-y-1 focus-within:ring-4 focus-within:ring-red-400 dark:border-zinc-700 dark:bg-zinc-800"
+                  className="flex min-h-[300px] flex-col rounded-2xl"
                 >
-                  <h3 className="mb-2 text-lg font-bold text-red-600 dark:text-red-400">
+                  <h3 className="text-xl font-bold text-red-600 dark:text-red-400">
                     <span className="sr-only">Question : </span>
                     {joke.question}
                   </h3>
@@ -76,12 +74,12 @@ export default function Home() {
                   <div className="my-2 h-1 w-full bg-yellow-400 transition-all group-hover:w-full"></div>
                   
                   {/* Bouton pour révéler la réponse (Accessibilité) */}
-                  <details className="cursor-pointer group">
+                  <details className="cursor-pointer">
                     <summary className="list-none bg-yellow-400 text-sm font-bold py-2 px-4 rounded-full inline-block hover:bg-yellow-300 dark:text-red-400">
                       <span className="sr-only">Afficher la réponse</span>
                       Afficher la réponse
                     </summary>
-                    <p className="text-zinc-800 font-medium italic dark:text-zinc-200">
+                    <p className="mt-4 text-lg text-zinc-800 font-medium italic dark:text-zinc-200">
                       <span className="sr-only">Réponse : </span>{joke.response}
                     </p>
                   </details>

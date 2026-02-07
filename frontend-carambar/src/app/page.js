@@ -5,20 +5,31 @@ import { jokeService } from "@/services/jokeServices.js";
 export default function Home() {
 
   const [jokes, setJokes] = useState([]);
+  const [randomJokes, setRandomJokes] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Chargement des blagues au montage du composant
-    jokeService.getAllJokes()
+    // Chargement des blagues aléatoires au montage du composant
+    jokeService.getRandomJokes(5)
       .then(data => {
-        setJokes(data);
+        setRandomJokes(data);
         setLoading(false);
       })
       .catch(error => {
-        console.error("Error fetching jokes:", error);
+        console.error("Error fetching random jokes:", error);
         setLoading(false);
       });
+    // Chargement de toutes les blagues pour le slider
+    // jokeService.getAllJokes()
+    //   .then(data => {
+    //     setJokes(data);
+    //     setLoading(false);
+    //   })
+    //   .catch(error => {
+    //     console.error("Error fetching jokes:", error);
+    //     setLoading(false);
+    //   });
   }, []);
 
   const nextSlide = () => {
@@ -50,6 +61,30 @@ export default function Home() {
           <h2 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
             Les blagues cultes
           </h2>
+
+          <button
+            onClick={fetchRandom}
+            className="mb- transform rounded-full bg-[#E10079] px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-400"
+          >
+            Un blague au hasard ?
+          </button>
+
+          {/* Affichage des blagues aléatoires */}
+          {randomJokes && (
+            <div className="mt-4 w-full max-w-xl">
+              <h3 className="text-lg font-bold text-[#E10079] dark:text-red-400">Blague aléatoire :</h3>
+              <p className="mt-2 text-zinc-800 dark:text-zinc-200">{randomJokes[0]?.question}</p>
+              <details className="cursor-pointer mt-2">
+                <summary className="list-none bg-yellow-400 text-sm font-bold py-2 px-4 rounded-full inline-block hover:bg-yellow-300 dark:text-red-400">
+                  <span className="sr-only">Afficher la réponse</span>
+                  Afficher la réponse
+                </summary>
+                <p className="mt-4 text-lg text-zinc-800 font-medium italic dark:text-zinc-200">
+                  {randomJokes[0]?.response}
+                </p>
+              </details>
+            </div>
+          )}
 
         {/* Wrapper du slider avec TAILLE FIXE */}
         <div className="relative w-full max-w-xl flex flex-col overflow-hidden rounded-3xl border-4 border-[#E10079] shadow-[10px_10px_0px_0px_#E10079]">

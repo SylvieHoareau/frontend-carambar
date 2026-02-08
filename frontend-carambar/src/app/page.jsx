@@ -20,17 +20,28 @@ export default function Home() {
         console.error("Error fetching random jokes:", error);
         setLoading(false);
       });
+
     // Chargement de toutes les blagues pour le slider
-    // jokeService.getAllJokes()
-    //   .then(data => {
-    //     setJokes(data);
-    //     setLoading(false);
-    //   })
-    //   .catch(error => {
-    //     console.error("Error fetching jokes:", error);
-    //     setLoading(false);
-    //   });
+    jokeService.getAllJokes()
+      .then(data => {
+        setJokes(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Error fetching jokes:", error);
+        setLoading(false);
+      });
   }, []);
+
+   const fetchRandom = () => {
+    jokeService.getRandomJokes(1)
+      .then(data => {
+        setRandomJokes(data);
+      })
+      .catch(error => {
+        console.error("Error fetching random joke:", error);
+      });
+  };
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % jokes.length);
@@ -39,6 +50,8 @@ export default function Home() {
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + jokes.length) % jokes.length);
   };
+
+ 
 
   if (loading) {
     return (

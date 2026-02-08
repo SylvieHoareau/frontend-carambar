@@ -5,7 +5,16 @@ export const jokeService = {
     async getAllJokes() {
         const response = await fetch(`${API_URL}/jokes`);
         if (!response.ok) {
-            throw new Error('Failed to fetch jokes');
+            throw new Error('Erreur lors de la récupération des blagues');
+        }
+        return await response.json();
+    },
+
+    // Récupérer les blagues aléatoires
+    async getRandomJokes(count = 5) {
+        const response = await fetch(`${API_URL}/jokes/random?count=${count}`);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des blagues aléatoires');
         }
         return await response.json();
     },
@@ -20,7 +29,7 @@ export const jokeService = {
             body: JSON.stringify(jokeData),
         });
         if (!response.ok) {
-            throw new Error('Failed to create joke');
+            throw new Error('Erreur lors de la création de la blague');
         }
         return await response.json();
     }

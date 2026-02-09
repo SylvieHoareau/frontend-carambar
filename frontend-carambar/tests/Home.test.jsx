@@ -18,8 +18,9 @@ describe('Home Component', () => {
     });
 
     it('affiche une blague après le chargement', async () => {
-        const mockJoke = [{ id: 1, content: 'Blague aléatoire 1' }];
-        jokeService.getRandomJokes.mockResolvedValueOnce(mockJoke);
+        const mockJoke = [{ id: 1, question: 'Blague aléatoire 1', response: 'Réponse de la blague 1' }];
+        jokeService.getRandomJokes.mockResolvedValue(mockJoke);
+
 
         render(<Home />);
 
@@ -31,10 +32,11 @@ describe('Home Component', () => {
 
     it('devrait afficher les blagues aléatoires après le chargement', async () => {
         const mockRandomJokes = [
-            { id: 1, content: 'Blague aléatoire 1' },
-            { id: 2, content: 'Blague aléatoire 2' },
+            { id: 1, question: 'Blague aléatoire 1', response: 'Réponse de la blague 1' },
+            { id: 2, question: 'Blague aléatoire 2', response: 'Réponse de la blague 2' },
         ];
-        jokeService.getRandomJokes.mockResolvedValueOnce(mockRandomJokes);
+        jokeService.getRandomJokes.mockResolvedValue(mockRandomJokes);
+        jokeService.getAllJokes.mockResolvedValue([]); 
 
         render(<Home />);
 
@@ -58,7 +60,7 @@ describe('Home Component', () => {
     })
 
     it('devrait afficher une erreur si la récupération des blagues échoue', async () => {
-        jokeService.getRandomJokes.mockRejectedValueOnce(new Error('Erreur de réseau'));
+        jokeService.getRandomJokes.mockRejectedValue(new Error('Erreur de réseau'));
 
         render(<Home />);
 

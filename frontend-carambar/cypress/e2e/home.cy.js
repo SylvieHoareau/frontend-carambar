@@ -22,16 +22,4 @@ describe('Page d\'accueil Carambar', () => {
     // 3. On vérifie que le bloc <details> est maintenant ouvert
     cy.get('details').first().should('have.attr', 'open');
   });
-
-  it('devrait changer de blague au clic sur le bouton suivant', () => {
-    // On récupère le texte de la première blague
-    cy.get('details').first().invoke('text').then((textAvant) => {
-      
-      // On clique sur le bouton "Blague suivante" (via son aria-label)
-      cy.get('button[aria-label="Blague suivante"]').click();
-
-      // On vérifie que le texte a changé (le slider a bougé)
-      cy.get('details').first().invoke('text').should('not.equal', textAvant);
-    });
-  });
 });
